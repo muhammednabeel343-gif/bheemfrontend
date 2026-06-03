@@ -7,22 +7,27 @@ function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     setError('')
+    setLoading(true)
 
     try {
       await signIn({ email, password })
-    } catch (err) {
-      setError('Login failed. Please check your credentials.')
+    } catch (err: any) {
+      const detail = err?.response?.data?.detail || err?.message || 'Login failed'
+      setError(detail)
+    } finally {
+      setLoading(false)
     }
   }
 
   return (
     <div className="mx-auto flex min-h-screen max-w-md items-center px-6 py-12">
       <div className="w-full rounded-3xl border border-slate-200 bg-white p-10 shadow-lg">
-        <h1 className="mb-6 text-3xl font-semibold">    <center>Bheem</center></h1>
+        <h1 className="mb-6 text-center text-3xl font-semibold">Bheem</h1>
         {error && <div className="mb-4 rounded-lg bg-red-100 px-4 py-3 text-sm text-red-700">{error}</div>}
         <form className="space-y-5" onSubmit={handleSubmit}>
           <label className="block">
@@ -47,9 +52,10 @@ function LoginPage() {
           </label>
           <button
             type="submit"
-            className="w-full rounded-2xl bg-slate-900 px-4 py-3 text-white transition hover:bg-slate-700"
+            disabled={loading}
+            className="w-full rounded-2xl bg-slate-900 px-4 py-3 text-white transition hover:bg-slate-700 disabled:opacity-70"
           >
-            Login
+            {loading ? 'Logging in...' : 'Login'}
           </button>
         </form>
         <p className="mt-6 text-center text-sm text-slate-500">

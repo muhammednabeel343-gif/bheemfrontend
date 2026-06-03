@@ -7,18 +7,18 @@ import ProtectedRoute from './components/ProtectedRoute'
 import CompatibilityPage from './pages/CompatibilityPage'
 import SystemSimulatorPage from './pages/SystemSimulatorPage'
 
-function AppRoutes() {
-  return (
-    <Routes>
-       <Route path="/" element={<ProtectedRoute><GameLibraryPage /></ProtectedRoute>} />
+ function AppRoutes() {
+   return (
+     <Routes>
+        <Route path="/" element={<ProtectedRoute><GameLibraryPage /></ProtectedRoute>} />
       <Route path="/favorites" element={<ProtectedRoute><FavoritesPage /></ProtectedRoute>} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
-      <Route path="*" element={<Navigate to="/" replace />} />
-      <Route path="/compatibility/:gameId" element={<CompatibilityPage />} />
       <Route path="/simulator" element={<SystemSimulatorPage />} />
+      <Route path="/compatibility/:gameId" element={<CompatibilityPage />} />
+      <Route path="*" element={<Navigate to="/" replace />} />
      </Routes>
-  )
-}
+   )
+ }
 
 export default AppRoutes

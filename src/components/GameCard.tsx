@@ -11,15 +11,13 @@ function GameCard({ game }: Props) {
 
   return (
     <article className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
-      <img
-        src={game.image_url || 'https://via.placeholder.com/420x236?text=Game'}
-        alt={game.name}
-        className="h-95 w-full object-cover object-center"
-        onError={(e) => {
-          e.currentTarget.src =
-            'https://via.placeholder.com/420x236?text=No+Image'
-        }}
-      />
+      <div className="relative aspect-[2/3] w-full bg-slate-100">
+        <img
+          src={game.image_url || 'https://via.placeholder.com/420x630?text=Game'}
+          alt={game.name}
+          className="absolute inset-0 h-full w-full object-cover object-center"
+        />
+      </div>
 
       <div className="space-y-3 p-5">
         <div className="flex items-start justify-between gap-4">
