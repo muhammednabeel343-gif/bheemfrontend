@@ -12,7 +12,7 @@ function Navbar() {
             Library
           </Link>
           <Link to="/favorites" className="text-slate-600 hover:text-slate-900">
-            Favorites
+            Favourites
           </Link>
          
           <Link to="/simulator" className="text-slate-600 hover:text-slate-900">
