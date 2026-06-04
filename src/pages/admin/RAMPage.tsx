@@ -16,7 +16,7 @@ function RAMPage() {
 
   const fetchRAMs = () => {
     if (!token) return;
-    fetch(`${import.meta.env.VITE_API_BASE_URL ?? 'http://127.0.0.1:8000'}/admin/rams`, {
+    fetch(`${import.meta.env.VITE_API_BASE_URL}/admin/rams`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => res.json())
@@ -33,7 +33,7 @@ function RAMPage() {
     const method = editing ? "PUT" : "POST";
 
     const res = await fetch(
-      `${import.meta.env.VITE_API_BASE_URL ?? 'http://127.0.0.1:8000'}${url}`,
+      `${import.meta.env.VITE_API_BASE_URL}${url}`,
       {
         method,
         headers: {
@@ -55,7 +55,7 @@ function RAMPage() {
   const handleDelete = async (id: number) => {
     if (!confirm("Delete this RAM option?")) return;
     await fetch(
-      `${import.meta.env.VITE_API_BASE_URL ?? 'http://127.0.0.1:8000'}/admin/rams/${id}`,
+      `${import.meta.env.VITE_API_BASE_URL}/admin/rams/${id}`,
       {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },

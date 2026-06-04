@@ -17,7 +17,7 @@ function CPUPage() {
   const fetchCPUs = useCallback(() => {
     if (!token) return;
     setLoading(true);
-    fetch(`${import.meta.env.VITE_API_BASE_URL ?? 'http://127.0.0.1:8000'}/admin/cpus`, {
+    fetch(`${import.meta.env.VITE_API_BASE_URL}/admin/cpus`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => res.json())
@@ -34,7 +34,7 @@ function CPUPage() {
     const method = editing ? "PUT" : "POST";
 
     const res = await fetch(
-      `${import.meta.env.VITE_API_BASE_URL ?? 'http://127.0.0.1:8000'}${url}`,
+      `${import.meta.env.VITE_API_BASE_URL}${url}`,
       {
         method,
         headers: {
@@ -61,7 +61,7 @@ function CPUPage() {
   const handleDelete = useCallback(async (id: number) => {
     if (!confirm("Delete this CPU?")) return;
     const res = await fetch(
-      `${import.meta.env.VITE_API_BASE_URL ?? 'http://127.0.0.1:8000'}/admin/cpus/${id}`,
+      `${import.meta.env.VITE_API_BASE_URL}/admin/cpus/${id}`,
       {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },

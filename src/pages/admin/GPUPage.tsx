@@ -17,7 +17,7 @@ function GPUPage() {
   const fetchGPUs = useCallback(() => {
     if (!token) return;
     setLoading(true);
-    fetch(`${import.meta.env.VITE_API_BASE_URL ?? 'http://127.0.0.1:8000'}/admin/gpus`, {
+    fetch(`${import.meta.env.VITE_API_BASE_URL}/admin/gpus`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => res.json())
@@ -34,7 +34,7 @@ function GPUPage() {
     const method = editing ? "PUT" : "POST";
 
     const res = await fetch(
-      `${import.meta.env.VITE_API_BASE_URL ?? 'http://127.0.0.1:8000'}${url}`,
+      `${import.meta.env.VITE_API_BASE_URL}${url}`,
       {
         method,
         headers: {
@@ -61,7 +61,7 @@ function GPUPage() {
   const handleDelete = useCallback(async (id: number) => {
     if (!confirm("Delete this GPU?")) return;
     const res = await fetch(
-      `${import.meta.env.VITE_API_BASE_URL ?? 'http://127.0.0.1:8000'}/admin/gpus/${id}`,
+      `${import.meta.env.VITE_API_BASE_URL}/admin/gpus/${id}`,
       {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
