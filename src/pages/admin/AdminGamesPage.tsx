@@ -12,7 +12,7 @@ interface Game {
   image_url?: string;
   cpu: string;
   gpu: string;
-  ram_gb: number;
+  ram_gb?: number;
 }
 
 function AdminGamesPage() {
