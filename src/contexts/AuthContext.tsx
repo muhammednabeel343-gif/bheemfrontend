@@ -50,7 +50,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     else {
       const profile = await fetchCurrentUser(response.access_token);
       setUser(profile);
-      window.location.assign("/");
+     window.location.assign("/library");
     }
   };
 
@@ -62,7 +62,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setRole("user");
     const profile = await fetchCurrentUser(response.access_token);
     setUser(profile);
-    window.location.assign("/");
+   window.location.assign("/library");
   };
 
   const signOut = () => {

@@ -14,7 +14,13 @@ function GameCardInner({ game }: Props) {
     <article className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
       <div className="relative aspect-[2/3] w-full bg-slate-100">
         <img
-          src={game.image_url?.startsWith('http') ? game.image_url : 'https://via.placeholder.com/420x630?text=Game'}
+          src={
+            game.image_url?.startsWith('http')
+              ? game.image_url
+              : game.image_url?.startsWith('/uploads/')
+                ? `${import.meta.env.VITE_API_BASE_URL || window.location.origin}${game.image_url}`
+                : 'https://via.placeholder.com/420x630?text=Game'
+          }
           alt={game.name}
           className="absolute inset-0 h-full w-full object-cover object-center"
         />

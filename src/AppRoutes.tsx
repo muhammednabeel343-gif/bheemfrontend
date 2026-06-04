@@ -29,7 +29,16 @@ function AdminProtectedRoute({ children }: { children: React.ReactNode }) {
 function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<ProtectedRoute><GameLibraryPage /></ProtectedRoute>} />
+     <Route path="/" element={<Navigate to="/login" replace />} />
+
+<Route
+  path="/library"
+  element={
+    <ProtectedRoute>
+      <GameLibraryPage />
+    </ProtectedRoute>
+  }
+/>
       <Route path="/favorites" element={<ProtectedRoute><FavoritesPage /></ProtectedRoute>} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
