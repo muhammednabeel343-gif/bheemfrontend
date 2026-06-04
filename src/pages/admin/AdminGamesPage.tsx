@@ -140,38 +140,50 @@ function AdminGamesPage() {
       ) : games.length === 0 ? (
         <div className="text-center py-8 text-slate-500">No games added yet.</div>
       ) : (
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {games.map((game) => (
-            <div key={game.id} className="flex flex-col rounded-3xl border border-slate-200 bg-white">
-              {game.image_url ? (
-                <img src={game.image_url} alt={game.name} className="h-48 w-full rounded-t-3xl object-cover" />
-              ) : (
-                <div className="h-48 w-full rounded-t-3xl bg-slate-100" />
-              )}
-              <div className="flex-1 p-4 space-y-2">
-                <h3 className="font-semibold text-slate-900">{game.name}</h3>
-                <p className="text-sm text-slate-600">{game.genre}</p>
-                <p className="text-xs text-slate-500">CPU: {game.cpu}</p>
-                <p className="text-xs text-slate-500">GPU: {game.gpu}</p>
-                <p className="text-xs text-slate-500">RAM: {game.ram_gb} GB</p>
-              </div>
-              <div className="flex justify-between p-4 pt-0">
-                <button
-                  onClick={() => startEdit(game)}
-                  className="rounded-2xl bg-slate-100 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-200"
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => handleDelete(game.id)}
-                  className="rounded-2xl bg-rose-100 px-4 py-2 text-sm font-medium text-rose-700 hover:bg-rose-200"
-                >
-                  Delete
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
+     <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+  {games.map((game) => (
+    <div
+      key={game.id}
+      className="flex h-full flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white"
+    >
+      {game.image_url ? (
+        <img
+          src={game.image_url}
+          alt={game.name}
+        className="h-56 w-full object-cover"
+        />
+      ) : (
+        <div className="h-64 w-full bg-slate-100" />
+      )}
+
+      <div className="flex-1 p-4">
+        <h3 className="text-lg font-semibold text-slate-900">
+          {game.name}
+        </h3>
+
+        <p className="mt-1 text-sm text-slate-600">
+          {game.genre}
+        </p>
+      </div>
+
+      <div className="flex justify-between p-4 pt-0">
+        <button
+          onClick={() => startEdit(game)}
+          className="rounded-2xl bg-slate-100 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-200"
+        >
+          Edit
+        </button>
+
+        <button
+          onClick={() => handleDelete(game.id)}
+          className="rounded-2xl bg-rose-100 px-4 py-2 text-sm font-medium text-rose-700 hover:bg-rose-200"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  ))}
+</div>
       )}
 
       {showModal && (
