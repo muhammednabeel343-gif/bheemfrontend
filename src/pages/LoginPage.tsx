@@ -27,7 +27,7 @@ function LoginPage() {
   return (
     <div className="mx-auto flex min-h-screen max-w-md items-center px-6 py-12">
       <div className="w-full rounded-3xl border border-slate-200 bg-white p-10 shadow-lg">
-        <h1 className="mb-6 text-center text-3xl font-semibold">Bheem Login</h1>
+        <h1 className="mb-6 text-center text-3xl font-semibold">BHEEM</h1>
         {error && <div className="mb-4 rounded-lg bg-red-100 px-4 py-3 text-sm text-red-700">{error}</div>}
         <form className="space-y-5" onSubmit={handleSubmit}>
           <label className="block">
@@ -64,9 +64,7 @@ function LoginPage() {
             Create account
           </Link>
         </p>
-        <p className="mt-2 text-center text-sm text-slate-500">
-          Admin login: admin@gmail.com / admin123
-        </p>
+       
       </div>
     </div>
   )

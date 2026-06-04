@@ -17,7 +17,7 @@ function AdminLayout() {
     <div className="flex min-h-screen bg-slate-50">
       <aside className="hidden w-64 flex-col bg-white shadow-md lg:flex">
         <div className="p-6">
-          <h1 className="text-xl font-bold text-slate-900">Project Bheem</h1>
+          <h1 className="text-xl font-bold text-slate-900">Bheem</h1>
         </div>
         <nav className="flex-1 space-y-1 px-4">
           {navItems.map((item) => (
@@ -46,7 +46,7 @@ function AdminLayout() {
 
       <div className="flex flex-1 flex-col">
         <header className="flex h-16 items-center justify-between bg-white px-6 shadow-sm">
-          <h2 className="text-lg font-semibold text-slate-900">Admin Panel</h2>
+          <h2 className="text-lg font-semibold text-slate-900">Admin</h2>
           <button
             onClick={signOut}
             className="rounded-2xl bg-slate-100 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-200 lg:hidden"

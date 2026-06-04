@@ -99,16 +99,8 @@ await saveSystemScan(token, {
     </article>
 
     <div className="flex gap-3">
-      <button
-        type="button"
-        onClick={() => void scanCompatibility(favorite)}
-        disabled={scanningGameId === favorite.game_id || !token}
-        className="flex-1 rounded-2xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white"
-      >
-        {scanningGameId === favorite.game_id
-          ? 'Scanning...'
-          : 'Scan Compatibility'}
-      </button>
+     
+      
 
       <button
         type="button"

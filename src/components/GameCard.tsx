@@ -12,7 +12,7 @@ function GameCardInner({ game }: Props) {
 
   return (
     <article className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
-      <div className="relative aspect-[2/3] w-full bg-slate-100">
+      <div className="relative  h-[350px] w-full bg-slate-100">
         <img
           src={
             game.image_url?.startsWith('http')

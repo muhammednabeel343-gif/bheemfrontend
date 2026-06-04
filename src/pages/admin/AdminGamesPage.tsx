@@ -13,6 +13,7 @@ interface Game {
   cpu: string;
   gpu: string;
   ram_gb?: number;
+  storage?: number;
 }
 
 function AdminGamesPage() {
@@ -23,14 +24,15 @@ function AdminGamesPage() {
   const [editing, setEditing] = useState<Game | null>(null);
 
   const [form, setForm] = useState({
-    name: "",
-    genre: "",
-    release_date: "",
-    image_url: "",
-    cpu: "",
-    gpu: "",
-    ram_gb: "",
-  });
+  name: "",
+  genre: "",
+  release_date: "",
+  image_url: "",
+  cpu: "",
+  gpu: "",
+  ram_gb: "",
+  storage: "",
+});
   const [imageFile, setImageFile] = useState<File | null>(null);
 
   const fetchGames = useCallback(() => {
@@ -47,7 +49,16 @@ function AdminGamesPage() {
 
   const resetForm = useCallback(() => {
     setEditing(null);
-    setForm({ name: "", genre: "", release_date: "", image_url: "", cpu: "", gpu: "", ram_gb: "" });
+    setForm({
+  name: "",
+  genre: "",
+  release_date: "",
+  image_url: "",
+  cpu: "",
+  gpu: "",
+  ram_gb: "",
+  storage: ""
+});
     setImageFile(null);
     setShowModal(true);
   }, []);
@@ -73,6 +84,7 @@ function AdminGamesPage() {
       cpu: form.cpu,
       gpu: form.gpu,
       ram_gb: form.ram_gb ? Number(form.ram_gb) : undefined,
+       storage: form.storage ? Number(form.storage) : undefined,
     };
 
     try {
@@ -86,7 +98,7 @@ function AdminGamesPage() {
     } finally {
       setShowModal(false);
       setEditing(null);
-      setForm({ name: "", genre: "", release_date: "", image_url: "", cpu: "", gpu: "", ram_gb: "" });
+      setForm({ name: "", genre: "", release_date: "", image_url: "", cpu: "", gpu: "", ram_gb: "",storage: "" });
       setImageFile(null);
     }
   }, [token, editing, form, imageFile]);
@@ -108,20 +120,22 @@ function AdminGamesPage() {
       setForm((prev) => ({ ...prev, image_url: file.name }));
     }
   };
+const startEdit = useCallback((game: Game) => {
+  setEditing(game);
 
-  const startEdit = useCallback((game: Game) => {
-    setEditing(game);
-    setForm({
-      name: game.name,
-      genre: game.genre || "",
-      release_date: game.release_date || "",
-      image_url: game.image_url || "",
-      cpu: game.cpu || "",
-      gpu: game.gpu || "",
-      ram_gb: game.ram_gb?.toString() || "",
-    });
-    setShowModal(true);
-  }, []);
+  setForm({
+    name: game.name,
+    genre: game.genre || "",
+    release_date: game.release_date || "",
+    image_url: game.image_url || "",
+    cpu: game.cpu || "",
+    gpu: game.gpu || "",
+    ram_gb: game.ram_gb?.toString() || "",
+    storage: game.storage?.toString() || "",
+  });
+
+  setShowModal(true);
+}, []);
 
   return (
     <div className="space-y-6">
@@ -140,17 +154,17 @@ function AdminGamesPage() {
       ) : games.length === 0 ? (
         <div className="text-center py-8 text-slate-500">No games added yet.</div>
       ) : (
-     <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+    <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
   {games.map((game) => (
     <div
   key={game.id}
-  className="flex flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white"
+  className="flex flex-col overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm"
 >
   {game.image_url ? (
     <img
       src={game.image_url}
       alt={game.name}
-      className="h-72 w-full object-cover object-center"
+    className="h-58 w-full object-cover"
     />
   ) : (
     <div className="h-72 w-full bg-slate-100" />
@@ -220,7 +234,24 @@ function AdminGamesPage() {
                 <span className="text-sm font-medium text-slate-700">Minimum RAM (GB)</span>
                 <input type="number" value={form.ram_gb} onChange={(e) => setForm({ ...form, ram_gb: e.target.value })} placeholder="Minimum RAM (GB)" className="mt-1 w-full rounded-2xl border border-slate-200 p-3" />
               </div>
+              <div>
+  <span className="text-sm font-medium text-slate-700">
+    Minimum Storage (GB)
+  </span>
+
+  <input
+    type="number"
+    value={form.storage}
+    onChange={(e) =>
+      setForm({ ...form, storage: e.target.value })
+    }
+    placeholder="Minimum Storage (GB)"
+    className="mt-1 w-full rounded-2xl border border-slate-200 p-3"
+  />
+</div>
             </div>
+            
+  
             <div className="mt-4 flex gap-2 justify-end">
               <button onClick={() => setShowModal(false)} className="rounded-2xl bg-slate-100 px-4 py-2 text-sm font-medium">Cancel</button>
               <button onClick={handleSave} className="rounded-2xl bg-slate-900 px-4 py-2 text-sm font-medium text-white">Save</button>

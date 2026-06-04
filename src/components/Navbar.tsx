@@ -8,7 +8,7 @@ function Navbar() {
     <header className="border-b border-slate-200 bg-white shadow-sm">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         <nav className="flex items-center gap-4 text-slate-700">
-          <Link to="/" className="font-semibold text-slate-900 hover:text-slate-700">
+          <Link to="/library" className="font-semibold text-slate-900 hover:text-slate-700">
             Library
           </Link>
           <Link to="/favorites" className="text-slate-600 hover:text-slate-900">
