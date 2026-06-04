@@ -28,6 +28,10 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
     try {
       const response = await getFavorites(token)
       setFavorites(response.favorites)
+    } catch (e: any) {
+      if (e?.response?.status === 401) {
+        setFavorites([])
+      }
     } finally {
       setLoading(false)
     }

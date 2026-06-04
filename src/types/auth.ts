@@ -12,6 +12,7 @@ export interface RegisterRequest {
 export interface TokenResponse {
   access_token: string
   token_type: string
+  role?: string
 }
 
 export interface UserProfile {
@@ -25,6 +26,7 @@ export interface AuthContextValue {
   token: string | null
   user: UserProfile | null
   loading: boolean
+  role: string | null
   signIn: (payload: LoginRequest) => Promise<void>
   signUp: (payload: RegisterRequest) => Promise<void>
   signOut: () => void

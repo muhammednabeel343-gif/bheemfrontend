@@ -21,61 +21,45 @@ function FavoritesPage() {
 
   
   const scanCompatibility = async (favorite: FavoriteItem) => {
-  console.log("SCAN BUTTON CLICKED")
-  console.log("FAVORITE:", favorite)
-  console.log("TOKEN:", token)
+   if (!token) {
+     setStatusMessage('Please sign in to scan your system and view compatibility.')
+     return
+   }
 
-  if (!token) {
-    setStatusMessage('Please sign in to scan your system and view compatibility.')
-    return
-  }
+   setScanningGameId(favorite.game_id)
+   setStatusMessage('Scanning system...')
 
-  setScanningGameId(favorite.game_id)
-  setStatusMessage('Scanning system...')
-
-  try {
-    console.log("CALLING getSystemScan")
-    const serverScan = await getSystemScan(token)
-
-    console.log("SERVER SCAN:", serverScan)
-
-    console.log("SERVER SCAN:", serverScan)
+   try {
+     const serverScan = await getSystemScan(token)
 
 await saveSystemScan(token, {
   ...serverScan,
   game_id: favorite.game_id,
 })
 
-    console.log("CALLING getCompatibilityReport")
-    const report = await getCompatibilityReport(token, favorite.game_id)
+     const report = await getCompatibilityReport(token, favorite.game_id)
 
-    console.log("REPORT:", report)
-
-
-    navigate(`/compatibility/${favorite.game_id}`,
-    {
-      state: {
-        game: favorite,
-      },
-    } )
-    setStatusMessage('Scan complete — compatibility report is ready.')
-  } catch (error: any) {
-    console.error("FULL ERROR:", error)
-    console.error("RESPONSE:", error?.response)
-
-    if (error?.response?.status === 401) {
-      setStatusMessage('You must be signed in to scan. Please log in and try again.')
-    } else if (error?.response?.data?.detail) {
-      setStatusMessage(String(error.response.data.detail))
-    } else if (error?.message) {
-      setStatusMessage(String(error.message))
-    } else {
-      setStatusMessage('Unable to complete the scan. Please try again.')
-    }
-  } finally {
-    setScanningGameId(null)
-  }
-}
+     navigate(`/compatibility/${favorite.game_id}`,
+     {
+       state: {
+         game: favorite,
+       },
+     } )
+     setStatusMessage('Scan complete — compatibility report is ready.')
+   } catch (error: any) {
+     if (error?.response?.status === 401) {
+       setStatusMessage('You must be signed in to scan. Please log in and try again.')
+     } else if (error?.response?.data?.detail) {
+       setStatusMessage(String(error.response.data.detail))
+     } else if (error?.message) {
+       setStatusMessage(String(error.message))
+     } else {
+       setStatusMessage('Unable to complete the scan. Please try again.')
+     }
+   } finally {
+     setScanningGameId(null)
+   }
+ }
   return (
  <div className="mx-auto max-w-6xl px-10 pt-4 pb-8">
       <div className="mb-4">

@@ -58,7 +58,7 @@ function GameLibraryPage() {
     }
 
     void loadGames()
-  }, [token, search, category, page, favoritesLoading])
+  }, [token, search, category, page])
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-8">

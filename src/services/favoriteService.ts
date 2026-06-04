@@ -16,14 +16,21 @@ export async function getFavorites(token: string): Promise<{ favorites: Favorite
 }
 
 export async function addFavorite(token: string, gameId: number): Promise<FavoriteItem> {
-  const response = await api.post(
-    '/favorites',
-    { game_id: gameId },
-    {
-      headers: { Authorization: `Bearer ${token}` },
-    },
-  )
-  return response.data
+  try {
+    const response = await api.post(
+      '/favorites',
+      { game_id: gameId },
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      },
+    )
+    return response.data
+  } catch (e: any) {
+    if (e?.response?.status === 409) {
+      return { id: 0, game_id: gameId, name: '', genre: '', image_url: '' } as FavoriteItem
+    }
+    throw e
+  }
 }
 
 export async function removeFavorite(token: string, gameId: number): Promise<void> {

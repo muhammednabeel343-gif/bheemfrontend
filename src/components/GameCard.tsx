@@ -1,11 +1,12 @@
 import type { GameSummary } from '../types/game'
 import useFavorites from '../hooks/useFavorites'
+import { memo } from 'react'
 
 interface Props {
   game: GameSummary
 }
 
-function GameCard({ game }: Props) {
+function GameCardInner({ game }: Props) {
   const { isFavorite, addFavorite, removeFavorite } = useFavorites()
   const favorite = isFavorite(game.id)
 
@@ -13,7 +14,7 @@ function GameCard({ game }: Props) {
     <article className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
       <div className="relative aspect-[2/3] w-full bg-slate-100">
         <img
-          src={game.image_url || 'https://via.placeholder.com/420x630?text=Game'}
+          src={game.image_url?.startsWith('http') ? game.image_url : 'https://via.placeholder.com/420x630?text=Game'}
           alt={game.name}
           className="absolute inset-0 h-full w-full object-cover object-center"
         />
@@ -52,4 +53,5 @@ function GameCard({ game }: Props) {
   )
 }
 
+export const GameCard = memo(GameCardInner)
 export default GameCard
