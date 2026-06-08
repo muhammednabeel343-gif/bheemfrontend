@@ -19,8 +19,8 @@ export default function SystemForm({ initialData, onSave, onCancel }: Props) {
   const [formData, setFormData] = useState<SystemScan>({
     cpu: initialData?.cpu || '',
     gpu: initialData?.gpu || '',
-    ram_gb: initialData?.ram_gb || '',
-    storage_gb: initialData?.storage_gb || '',
+    ram_gb: initialData?.ram_gb || 0,
+    storage_gb: initialData?.storage_gb || 0,
     operating_system: initialData?.operating_system || '',
   })
 

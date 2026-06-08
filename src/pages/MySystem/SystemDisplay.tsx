@@ -1,4 +1,4 @@
-import { CPU, HardDrive, Zap, Cpu, Monitor } from 'lucide-react'
+import { HardDrive, Zap, Cpu, Monitor } from 'lucide-react'
 import type { SystemScan } from '../../types/game'
 
 interface Props {

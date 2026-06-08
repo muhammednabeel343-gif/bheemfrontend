@@ -28,7 +28,7 @@ export default function GPUSelector({ value, onChange, token, error }: Props) {
       try {
         setLoading(true)
         const data = await getGpuOptions(token)
-        setOptions(Array.isArray(data) ? data : data.gpus || [])
+        setOptions(Array.isArray(data) ? data : [])
       } catch (err) {
         console.error('Failed to load GPUs:', err)
       } finally {

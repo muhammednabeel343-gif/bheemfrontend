@@ -28,7 +28,7 @@ export default function CPUSelector({ value, onChange, token, error }: Props) {
       try {
         setLoading(true)
         const data = await getCpuOptions(token)
-        setOptions(Array.isArray(data) ? data : data.cpus || [])
+        setOptions(Array.isArray(data) ? data : [])
       } catch (err) {
         console.error('Failed to load CPUs:', err)
       } finally {
