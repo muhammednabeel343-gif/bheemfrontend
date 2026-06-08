@@ -9,7 +9,7 @@ interface SystemData {
   gpu: string
   ram_gb: number
   storage_gb: number
-  operating_system: string
+  operating_system?: string | null
 }
 
 interface ProjectGame {
