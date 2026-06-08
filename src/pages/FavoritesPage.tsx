@@ -61,61 +61,70 @@ await saveSystemScan(token, {
    }
  }
   return (
- <div className="mx-auto max-w-6xl px-10 pt-4 pb-8">
-      <div className="mb-4">
-        
-        <h1 className="text-3xl font-semibold text-slate-900">Your Favorites</h1>
-      
-      </div>
-
-      {loading ? (
-        <div className="rounded-3xl border border-slate-200 bg-white p-10 text-center text-slate-500">Loading favorites…</div>
-      ) : items.length === 0 ? (
-        <div className="rounded-3xl border border-slate-200 bg-white p-10 text-center text-slate-500">
-          You haven’t added any favorites yet.
+    <div className="min-h-screen bg-gaming-bg">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold text-white">Your Favorites</h1>
+          <p className="text-gaming-secondary mt-2">Games you've saved for quick access</p>
         </div>
-      ) : (
-        <div className="space-y-6">
-          {statusMessage && (
-            <div className="rounded-3xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
-              {statusMessage}
-            </div>
-          )}
 
-  <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
-          {items.map((favorite) => (
-  <div key={favorite.id} className="space-y-3">
-
-    <article
-      className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm"
-    >
-   <div className="h-82 overflow-hidden rounded-3xl">
-  <img
-    src={favorite.image_url ?? 'https://via.placeholder.com/420x600?text=Game'}
-    alt={favorite.name}
-    className="h-full w-full object-cover"
-  />
-</div>
-    </article>
-
-    <div className="flex gap-3">
-     
-      
-
-      <button
-        type="button"
-        onClick={() => void removeFavorite(favorite.game_id)}
-        className="flex-1 rounded-2xl bg-rose-500 px-4 py-3 text-sm font-semibold text-white"
-      >
-        Remove Favorite
-      </button>
-    </div>
-
-  </div>
-))}
+        {loading ? (
+          <div className="rounded-xl border border-gaming-accent/20 bg-gaming-card/50 backdrop-blur-sm p-12 text-center">
+            <div className="inline-block h-8 w-8 animate-spin rounded-full border-2 border-gaming-accent border-t-transparent"></div>
+            <p className="mt-4 text-gaming-secondary">Loading favorites…</p>
           </div>
-        </div>
-      )}
+        ) : items.length === 0 ? (
+          <div className="rounded-xl border border-gaming-accent/20 bg-gaming-card/50 backdrop-blur-sm p-12 text-center">
+            <p className="text-gaming-secondary">You haven't added any favorites yet.</p>
+          </div>
+        ) : (
+          <div className="space-y-6">
+            {statusMessage && (
+              <div className="rounded-xl border border-gaming-accent/30 bg-gaming-surface/50 p-4 text-sm text-gaming-accent">
+                {statusMessage}
+              </div>
+            )}
+
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {items.map((favorite) => (
+                <div key={favorite.id} className="group rounded-xl border border-gaming-accent/20 bg-gaming-card/50 backdrop-blur-sm overflow-hidden hover:border-gaming-accent/50 transition-all duration-300 hover:shadow-glow">
+                  <div className="relative w-full h-56 overflow-hidden bg-gaming-surface">
+                    <img
+                      src={favorite.image_url ?? 'https://via.placeholder.com/640x360?text=Game'}
+                      alt={favorite.name}
+                      className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                  </div>
+
+                  <div className="p-4 space-y-4">
+                    <h3 className="font-bold text-white group-hover:text-gaming-accent transition-colors">
+                      {favorite.name}
+                    </h3>
+
+                    <div className="flex gap-2">
+                      <button
+                        type="button"
+                        onClick={() => void scanCompatibility(favorite)}
+                        disabled={scanningGameId === favorite.game_id}
+                        className="flex-1 rounded-lg bg-gaming-accent hover:bg-gaming-accent-hover text-white px-4 py-2 text-sm font-semibold transition-all duration-300 disabled:opacity-50"
+                      >
+                        {scanningGameId === favorite.game_id ? 'Scanning...' : 'Check'}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => void removeFavorite(favorite.game_id)}
+                        className="flex-1 rounded-lg bg-status-not-recommended/80 hover:bg-status-not-recommended text-white px-4 py-2 text-sm font-semibold"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   )
 }

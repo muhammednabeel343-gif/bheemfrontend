@@ -2,20 +2,20 @@ import AppRoutes from './AppRoutes'
 import { AuthProvider } from './contexts/AuthContext'
 import { FavoritesProvider } from './contexts/FavoritesContext'
 import { AdminAuthProvider } from './contexts/AdminAuthContext'
-import Navbar from './components/Navbar'
+import Navigation from './components/Navigation/Navigation'
 import { useLocation } from 'react-router-dom'
 
 function AppContent() {
   const location = useLocation()
 
-  const hideNavbar =
+  const hideNavigation =
     location.pathname === '/login' ||
     location.pathname === '/register' ||
     location.pathname.startsWith('/admin')
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900">
-      {!hideNavbar && <Navbar />}
+    <div className="min-h-screen bg-gaming-bg text-white">
+      {!hideNavigation && <Navigation />}
       <AppRoutes />
     </div>
   )

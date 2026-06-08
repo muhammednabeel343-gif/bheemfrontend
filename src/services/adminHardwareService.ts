@@ -201,6 +201,8 @@ export async function createAdminGame(
     cpu?: string;
     gpu?: string;
     ram_gb?: number;
+    storage?: number;
+    operating_system?: string;
   }
 ) {
   const response = await api.post("/admin/games", data, {
@@ -220,6 +222,8 @@ export async function updateAdminGame(
     cpu?: string;
     gpu?: string;
     ram_gb?: number;
+    storage?: number;
+    operating_system?: string;
   }
 ) {
   const response = await api.put(`/admin/games/${id}`, data, {

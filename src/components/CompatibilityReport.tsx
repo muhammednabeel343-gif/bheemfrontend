@@ -75,6 +75,13 @@ function CompatibilityReport({ report }: Props) {
           <p className="font-semibold">Storage</p>
           <p>{report.minimum_requirements.storage_gb} GB</p>
         </div>
+
+        <div className="sm:col-span-2">
+          <p className="font-semibold">Operating System</p>
+          <p className="break-words leading-relaxed">
+            {report.minimum_requirements.operating_system}
+          </p>
+        </div>
       </div>
     </div>
 
@@ -107,6 +114,13 @@ function CompatibilityReport({ report }: Props) {
         <div>
           <p className="font-semibold">Storage</p>
           <p>{report.user_specs.storage_gb} GB</p>
+        </div>
+
+        <div className="sm:col-span-2">
+          <p className="font-semibold">Operating System</p>
+          <p className="break-words leading-relaxed">
+            {report.user_specs.operating_system}
+          </p>
         </div>
       </div>
     </div>
@@ -162,6 +176,7 @@ function CompatibilityReport({ report }: Props) {
           { label: 'GPU', pass: report.checks.gpu_pass },
           { label: 'RAM', pass: report.checks.ram_pass },
           { label: 'Storage', pass: report.checks.storage_pass },
+          { label: 'Operating System', pass: report.checks.os_pass },
         ].map((item) => (
           <div
             key={item.label}

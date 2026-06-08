@@ -62,6 +62,7 @@ export interface CompatibilityCheck {
   gpu_pass: boolean
   ram_pass: boolean
   storage_pass: boolean
+  os_pass: boolean
 }
 
 export interface CompatibilityReport {

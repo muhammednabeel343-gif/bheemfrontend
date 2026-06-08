@@ -7,12 +7,19 @@ import RegisterPage from "./pages/RegisterPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import CompatibilityPage from "./pages/CompatibilityPage";
 import SystemSimulatorPage from "./pages/SystemSimulatorPage";
+import MySystem from "./pages/MySystem/MySystem";
+import CompatibleGames from "./pages/CompatibleGames/CompatibleGames";
+import GameDetails from "./pages/GameDetails/GameDetails";
+import Simulator from "./pages/Simulator/Simulator";
+import Profile from "./pages/Profile/Profile";
+import HomePage from "./pages/HomePage";
 
 import AdminLayout from "./layouts/AdminLayout";
 import AdminDashboardPage from "./pages/admin/AdminDashboardPage";
 import CPUPage from "./pages/admin/CPUPage";
 import GPUPage from "./pages/admin/GPUPage";
 import RAMPage from "./pages/admin/RAMPage";
+import OSPage from "./pages/admin/OSPage";
 import AdminGamesPage from "./pages/admin/AdminGamesPage";
 import { useAdminAuth } from "./contexts/AdminAuthContext";
 
@@ -29,23 +36,17 @@ function AdminProtectedRoute({ children }: { children: React.ReactNode }) {
 function AppRoutes() {
   return (
     <Routes>
-     <Route path="/" element={<Navigate to="/login" replace />} />
-
-<Route
-  path="/library"
-  element={
-    <ProtectedRoute>
-      <GameLibraryPage />
-    </ProtectedRoute>
-  }
-/>
+      <Route path="/" element={<ProtectedRoute><HomePage /></ProtectedRoute>} />
+      <Route path="/library" element={<ProtectedRoute><GameLibraryPage /></ProtectedRoute>} />
       <Route path="/favorites" element={<ProtectedRoute><FavoritesPage /></ProtectedRoute>} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
-
-<Route path="/admin/login" element={<AdminLoginPage />} />
-      <Route path="/simulator" element={<ProtectedRoute><SystemSimulatorPage /></ProtectedRoute>} />
-      <Route path="/compatibility/:gameId" element={<CompatibilityPage />} />
+      <Route path="/system" element={<ProtectedRoute><MySystem /></ProtectedRoute>} />
+      <Route path="/compatible-games" element={<ProtectedRoute><CompatibleGames /></ProtectedRoute>} />
+      <Route path="/games/:gameId" element={<ProtectedRoute><GameDetails /></ProtectedRoute>} />
+      <Route path="/simulator" element={<ProtectedRoute><Simulator /></ProtectedRoute>} />
+      <Route path="/profile/:userId?" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+      <Route path="/compatibility/:gameId" element={<ProtectedRoute><CompatibilityPage /></ProtectedRoute>} />
 
       <Route path="/admin" element={<AdminProtectedRoute><AdminLayout /></AdminProtectedRoute>}>
         <Route index element={<Navigate to="dashboard" replace />} />
@@ -53,6 +54,7 @@ function AppRoutes() {
         <Route path="cpus" element={<CPUPage />} />
         <Route path="gpus" element={<GPUPage />} />
         <Route path="rams" element={<RAMPage />} />
+        <Route path="oses" element={<OSPage />} />
         <Route path="games" element={<AdminGamesPage />} />
       </Route>
 
