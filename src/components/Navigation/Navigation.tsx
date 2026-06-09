@@ -11,7 +11,7 @@ function Navigation() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   const navItems = [
-    { path: '/', label: 'Home' },
+    { path: '/home', label: 'Home' },
     { path: '/library', label: 'Game Library' },
     { path: '/system', label: 'My System' },
     { path: '/compatible-games', label: 'Compatible Games' },

@@ -10,9 +10,9 @@ function HomePage() {
   return (
     <div className="min-h-screen bg-gaming-bg">
       {/* Hero Section */}
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         {/* Welcome Card */}
-        <div className="mb-16 rounded-xl border border-gaming-accent/30 bg-gaming-card/50 backdrop-blur-sm p-8 sm:p-12 hover:border-gaming-accent/50 transition-all duration-300">
+        <div className="mb-8 rounded-xl border border-gaming-accent/30 bg-gaming-card/50 backdrop-blur-sm p-8 sm:p-12 hover:border-gaming-accent/50 transition-all duration-300">
           <div className="flex items-start justify-between gap-6">
             <div className="flex-1">
               <h1 className="text-4xl sm:text-5xl font-bold text-white mb-3">
