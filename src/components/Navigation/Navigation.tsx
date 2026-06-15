@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { Menu, X, LogOut } from 'lucide-react'
+import { Menu, X, LogOut, Bot, ShoppingCart, MessageCircle } from 'lucide-react'
 import { useAuth } from '../../contexts/AuthContext'
 import Button from '../Button/Button'
 import GameReadyLogo from '../GameReadyLogo'
@@ -58,15 +58,37 @@ function Navigation() {
                 {item.label}
               </Link>
             ))}
+            {/* Cart link (moved closer to AI Chat) */}
+            <Link
+              to="/cart"
+              className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
+                isActive('/cart')
+                  ? 'bg-gaming-accent text-white shadow-glow'
+                  : 'text-gaming-secondary hover:text-gaming-accent hover:bg-gaming-accent/10'
+              }`}
+            >
+              <ShoppingCart size={15} />
+              Cart
+            </Link>
+
+            {/* AI Chat link */}
+            <Link
+              to="/chat"
+              className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
+                isActive('/chat')
+                  ? 'bg-gaming-accent text-white shadow-glow'
+                  : 'text-gaming-secondary hover:text-gaming-accent hover:bg-gaming-accent/10'
+              }`}
+            >
+              <Bot size={15} />
+              AI Chat
+            </Link>
           </div>
 
           {/* User Section */}
-          <div className="hidden md:flex items-center gap-4">
+          <div className="hidden md:flex items-center gap-2">
             {user && (
               <>
-                <span className="text-sm text-gaming-secondary">
-                  {user.username}
-                </span>
                 <Button
                   variant="ghost"
                   size="sm"
@@ -110,11 +132,36 @@ function Navigation() {
                   {item.label}
                 </Link>
               ))}
+              {/* AI Chat mobile link */}
+              <Link
+                to="/chat"
+                onClick={() => setMobileMenuOpen(false)}
+                className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
+                  isActive('/chat')
+                    ? 'bg-gaming-accent text-white'
+                    : 'text-gaming-secondary hover:text-gaming-accent hover:bg-gaming-accent/10'
+                }`}
+              >
+                <Bot size={15} />
+                AI Chat
+              </Link>
+
+              {/* Cart link */}
+              <Link
+                to="/cart"
+                onClick={() => setMobileMenuOpen(false)}
+                className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
+                  isActive('/cart')
+                    ? 'bg-gaming-accent text-white'
+                    : 'text-gaming-secondary hover:text-gaming-accent hover:bg-gaming-accent/10'
+                }`}
+              >
+                <ShoppingCart size={15} />
+                Cart
+              </Link>
+
               {user && (
                 <div className="border-t border-gaming-accent/20 pt-4 mt-4">
-                  <div className="px-3 py-2 text-sm text-gaming-secondary mb-2">
-                    {user.username}
-                  </div>
                   <Button
                     variant="danger"
                     size="sm"

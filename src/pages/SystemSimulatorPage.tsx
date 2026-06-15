@@ -4,6 +4,7 @@ import { Listbox } from '@headlessui/react'
 import { getGames } from '../services/gameService'
 import { useNavigate } from 'react-router-dom'
 import { simulateCompatibility, getCpuOptions, getGpuOptions, getRamOptions, getStorageOptions, getOsOptions } from '../services/systemService'
+import { getGameImageSrc, handleGameImageError } from '../utils/imageHelpers'
 import { Cpu, Gpu, HardDrive, Gamepad2, Monitor, ChevronDown, Check, Zap, Database, Settings } from 'lucide-react'
 
 function SystemSimulatorPage() {
@@ -496,9 +497,9 @@ function SystemSimulatorPage() {
                     <div className="flex gap-4">
                       <div className="flex-shrink-0">
                         <img
-                          src={selectedGame.image_url}
+                          src={getGameImageSrc(selectedGame.image_url)}
                           alt={selectedGame.name}
-                          onError={(e) => { (e.target as HTMLImageElement).src = 'https://via.placeholder.com/60x80?text=Game' }}
+                          onError={handleGameImageError}
                           className="h-32 w-24 rounded-lg object-cover bg-gaming-surface border border-gaming-accent/20"
                         />
                       </div>

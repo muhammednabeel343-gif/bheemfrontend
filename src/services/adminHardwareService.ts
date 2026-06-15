@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL,
+  baseURL: import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8000',
   headers: { "Content-Type": "application/json" },
 });
 
@@ -195,9 +195,11 @@ export async function createAdminGame(
   token: string,
   data: {
     name: string;
+    description?: string;
     genre: string;
     release_date?: string;
     image_url?: string;
+    price?: number;
     cpu?: string;
     gpu?: string;
     ram_gb?: number;
@@ -216,9 +218,11 @@ export async function updateAdminGame(
   id: number,
   data: {
     name?: string;
+    description?: string;
     genre?: string;
     release_date?: string;
     image_url?: string;
+    price?: number;
     cpu?: string;
     gpu?: string;
     ram_gb?: number;

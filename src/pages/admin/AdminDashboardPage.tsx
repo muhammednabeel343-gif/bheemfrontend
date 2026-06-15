@@ -42,12 +42,7 @@ function AdminDashboardPage() {
     setLoading(true);
     setError("");
     
-    const apiUrl = import.meta.env.VITE_API_BASE_URL;
-    if (!apiUrl) {
-      setError("API_URL not configured");
-      setLoading(false);
-      return;
-    }
+    const apiUrl = import.meta.env.VITE_API_BASE_URL ?? '';
     
     // Fetch stats
     fetch(`${apiUrl}/admin/dashboard`, {

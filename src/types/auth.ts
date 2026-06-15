@@ -27,7 +27,7 @@ export interface AuthContextValue {
   user: UserProfile | null
   loading: boolean
   role: string | null
-  signIn: (payload: LoginRequest) => Promise<void>
+  signIn: (payload: LoginRequest) => Promise<'admin' | 'user'>
   signUp: (payload: RegisterRequest) => Promise<void>
   signOut: () => void
 }

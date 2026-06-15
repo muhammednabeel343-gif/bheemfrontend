@@ -9,6 +9,10 @@ import GameHero from './GameHero'
 import RequirementCard from './RequirementCard'
 import CompatibilityReportCard from './CompatibilityReportCard'
 import RelatedGames from './RelatedGames'
+import AIExplanationCard from '../../components/AI/AIExplanationCard'
+import UpgradeAdvisorWidget from '../../components/AI/UpgradeAdvisorWidget'
+import useAIExplanation from '../../hooks/useAIExplanation'
+import useUpgradeAdvisor from '../../hooks/useUpgradeAdvisor'
 import { ArrowLeft } from 'lucide-react'
 
 export default function GameDetails() {
@@ -24,6 +28,19 @@ export default function GameDetails() {
   const [error, setError] = useState('')
 
   const gameIdNum = gameId ? parseInt(gameId) : 0
+
+  const requirements = Array.isArray(game?.requirements) ? game.requirements : []
+  const firstRequirement = requirements[0] ?? null
+  const { data: explanationData, loading: explanationLoading } = useAIExplanation(
+    game?.name ?? null,
+    firstRequirement,
+    userSystem,
+    compatibility?.compatibility_percentage ?? null
+  )
+  const { data: upgradeData, loading: upgradeLoading, fetchRecommendations } = useUpgradeAdvisor(
+    userSystem,
+    compatibility?.compatibility_percentage ?? null
+  )
 
   useEffect(() => {
     const loadData = async () => {
@@ -57,6 +74,11 @@ export default function GameDetails() {
 
     loadData()
   }, [token, gameIdNum])
+
+  // Fetch upgrade recommendations when user's system becomes available
+  useEffect(() => {
+    if (userSystem) fetchRecommendations()
+  }, [userSystem])
 
   const handleFavorite = () => {
     if (isFavorite(gameIdNum)) {
@@ -142,11 +164,17 @@ export default function GameDetails() {
               <h2 className="text-2xl font-bold text-white mb-6">
                 System Requirements
               </h2>
-              <div className="space-y-4">
-                {game.requirements.map((req, idx) => (
-                  <RequirementCard key={idx} requirement={req} />
-                ))}
-              </div>
+              {requirements.length === 0 ? (
+                <div className="rounded-xl border border-gaming-accent/20 bg-gaming-card/50 backdrop-blur-sm p-6 text-sm text-gaming-secondary">
+                  No requirements available for this game.
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {requirements.map((req, idx) => (
+                    <RequirementCard key={idx} requirement={req} />
+                  ))}
+                </div>
+              )}
             </div>
           </div>
 
@@ -180,7 +208,16 @@ export default function GameDetails() {
               )}
             </div>
 
-            {/* Quick Actions */}
+              {/* AI Explanation Card */}
+              <div>
+                <AIExplanationCard
+                  summary={explanationData?.summary}
+                  details={explanationData?.details}
+                />
+                {explanationLoading && <p className="text-sm text-game-text-secondary">Loading explanation...</p>}
+              </div>
+
+              {/* Quick Actions */}
             <button
               onClick={handleFavorite}
               className={`w-full py-3 rounded-lg font-medium transition-all duration-300 ${
@@ -191,6 +228,11 @@ export default function GameDetails() {
             >
               {isFavorite(gameIdNum) ? '❤️ Favorited' : '🤍 Add to Favorites'}
             </button>
+
+              {/* Upgrade Advisor Widget */}
+              <div>
+                <UpgradeAdvisorWidget data={upgradeData} loading={upgradeLoading} onRefresh={fetchRecommendations} />
+              </div>
           </div>
         </div>
 

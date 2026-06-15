@@ -2,6 +2,7 @@ import { Heart, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useEffect, useState, useRef } from 'react'
 import { useAuth } from '../../contexts/AuthContext'
+import { getGameImageSrc, handleGameImageError } from '../../utils/imageHelpers'
 import { getFavorites } from '../../services/favoriteService'
 
 interface Favorite {
@@ -98,23 +99,20 @@ export default function FavoriteGames() {
 
       <div ref={scrollRef} className="flex gap-4 overflow-x-scroll pb-6 scroll-smooth scrollbar-hide" onScroll={handleScroll}>
         {favorites.map((game) => (
-          <Link
+          <div
             key={game.id}
-            to={`/games/${game.id}`}
-            className="group relative overflow-hidden rounded-lg aspect-[2/3] bg-gaming-surface border border-gaming-accent/10 hover:border-gaming-accent/50 transition-all duration-300 flex-shrink-0 w-48 md:w-56"
+            className="group relative overflow-hidden rounded-lg aspect-[2/3] bg-gaming-surface border border-gaming-accent/10 transition-all duration-300 flex-shrink-0 w-48 md:w-56"
           >
             <img
-              src={game.image_url || 'https://via.placeholder.com/300x400?text=Game'}
+              src={getGameImageSrc(game.image_url)}
               alt={game.name}
-              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-              onError={(e) => {
-                (e.target as HTMLImageElement).src = 'https://via.placeholder.com/300x400?text=Game'
-              }}
+              className="w-full h-full object-cover transition-transform duration-300"
+              onError={handleGameImageError}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end p-3">
               <p className="text-sm font-bold text-white line-clamp-2">{game.name}</p>
             </div>
-          </Link>
+          </div>
         ))}
       </div>
 

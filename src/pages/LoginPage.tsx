@@ -1,10 +1,15 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
+import { useAdminAuth } from '../contexts/AdminAuthContext'
 import GameReadyLogo from '../components/GameReadyLogo'
 
 function LoginPage() {
   const { signIn } = useAuth()
+  const { signIn: signInAdmin } = useAdminAuth()
+  const navigate = useNavigate()
+  const location = useLocation()
+  const nextPath = new URLSearchParams(location.search).get('next') || '/library'
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -16,15 +21,34 @@ function LoginPage() {
     setLoading(true)
 
     try {
-      await signIn({ email, password })
+      const role = await signIn({ email, password })
+      if (role === 'admin') {
+        navigate('/admin/dashboard', { replace: true })
+      } else {
+        navigate(nextPath, { replace: true })
+      }
     } catch (err: any) {
+      const status = err?.response?.status
       const detail = err?.response?.data?.detail || err?.message || 'Login failed'
+
+      if (status === 401 || detail.toLowerCase().includes('incorrect')) {
+        try {
+          await signInAdmin({ email, password })
+          navigate('/admin/dashboard', { replace: true })
+          return
+        } catch (adminErr: any) {
+          setError(adminErr?.message || detail)
+          return
+        }
+      }
+
       setError(detail)
     } finally {
       setLoading(false)
     }
   }
-return (
+
+  return (
 
 <div className="relative min-h-screen bg-[#020617] flex items-center justify-center px-6 overflow-hidden">
   <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(139,92,246,0.12),transparent_60%)]" />
@@ -39,6 +63,11 @@ return (
         <p className="mb-8 text-center text-lg text-slate-400">
           Measure Your PC. Match Your Games.
         </p>
+        {nextPath && nextPath !== '/library' && (
+          <div className="mb-5 rounded-xl border border-blue-500/30 bg-blue-500/10 px-4 py-3 text-sm text-blue-200">
+            Please sign in to continue to the requested game detail.
+          </div>
+        )}
         {error && (
           <div className="mb-5 rounded-xl bg-red-500/20 border border-red-500/30 px-4 py-3 text-sm text-red-300">
             {error}

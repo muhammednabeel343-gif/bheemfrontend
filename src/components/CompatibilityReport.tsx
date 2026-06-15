@@ -32,9 +32,103 @@ function progressColor(score: number) {
 }
 
 function CompatibilityReport({ report }: Props) {
+  // Debug: log what we're receiving
+  console.log('Compatibility Report:', report)
+  console.log('AI Insights:', report.ai_insights)
+  
   return (
 <div className="rounded-3xl border border-slate-200 bg-slate-50 p-6">
      
+     {/* AI INSIGHTS SECTION */}
+     {report.ai_insights && (
+       <div className="mb-6 rounded-3xl border border-violet-200 bg-gradient-to-br from-violet-50 to-violet-100 p-6">
+         <div className="mb-4 flex items-center gap-2">
+           <span className="text-xl">✨</span>
+           <h3 className="text-lg font-bold text-violet-900">AI Insights</h3>
+         </div>
+
+         <div className="space-y-4">
+           {/* GPU Analysis */}
+           {report.ai_insights.gpu_analysis && (
+             <div className="rounded-2xl bg-white/60 p-3 text-sm">
+               <p className="font-semibold text-violet-900">GPU Analysis</p>
+               <p className="mt-1 text-slate-700">{report.ai_insights.gpu_analysis}</p>
+             </div>
+           )}
+
+           {/* CPU Analysis */}
+           {report.ai_insights.cpu_analysis && (
+             <div className="rounded-2xl bg-white/60 p-3 text-sm">
+               <p className="font-semibold text-violet-900">CPU Analysis</p>
+               <p className="mt-1 text-slate-700">{report.ai_insights.cpu_analysis}</p>
+             </div>
+           )}
+
+           {/* RAM Analysis */}
+           {report.ai_insights.ram_analysis && (
+             <div className="rounded-2xl bg-white/60 p-3 text-sm">
+               <p className="font-semibold text-violet-900">RAM Analysis</p>
+               <p className="mt-1 text-slate-700">{report.ai_insights.ram_analysis}</p>
+             </div>
+           )}
+
+           {/* Expected Experience */}
+           {report.ai_insights.expected_experience && (
+             <div className="rounded-2xl bg-emerald-50 p-4 text-sm">
+               <p className="font-semibold text-emerald-900">Expected Experience</p>
+               <p className="mt-1 text-lg font-bold text-emerald-700">{report.ai_insights.expected_experience}</p>
+             </div>
+           )}
+
+           {/* Recommended Settings */}
+           {report.ai_insights.recommended_settings && report.ai_insights.recommended_settings.length > 0 && (
+             <div className="rounded-2xl bg-white/60 p-3 text-sm">
+               <p className="font-semibold text-violet-900">Recommended Settings</p>
+               <ul className="mt-2 space-y-1">
+                 {report.ai_insights.recommended_settings.map((setting, idx) => (
+                   <li key={idx} className="flex items-start gap-2 text-slate-700">
+                     <span className="text-emerald-600">▸</span>
+                     {setting}
+                   </li>
+                 ))}
+               </ul>
+             </div>
+           )}
+
+           {/* Tips */}
+           {report.ai_insights.tips && report.ai_insights.tips.length > 0 && (
+             <div className="rounded-2xl bg-amber-50 p-3 text-sm">
+               <p className="font-semibold text-amber-900">Tips & Tricks</p>
+               <ul className="mt-2 space-y-1">
+                 {report.ai_insights.tips.map((tip, idx) => (
+                   <li key={idx} className="flex items-start gap-2 text-slate-700">
+                     <span className="text-amber-600">💡</span>
+                     {tip}
+                   </li>
+                 ))}
+               </ul>
+             </div>
+           )}
+
+           {/* Warnings */}
+           {report.ai_insights.warnings && report.ai_insights.warnings.length > 0 && (
+             <div className="rounded-2xl bg-rose-50 p-3 text-sm">
+               <p className="font-semibold text-rose-900">⚠️ Warnings</p>
+               <ul className="mt-2 space-y-1">
+                 {report.ai_insights.warnings.map((warning, idx) => (
+                   <li key={idx} className="flex items-start gap-2 text-slate-700">
+                     <span className="text-rose-600">⚠</span>
+                     {warning}
+                   </li>
+                 ))}
+               </ul>
+             </div>
+           )}
+         </div>
+       </div>
+     )}
+
+
 
 
 

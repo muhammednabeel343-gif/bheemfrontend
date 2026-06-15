@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useAuth } from '../contexts/AuthContext'
 import useFavorites from '../hooks/useFavorites'
 import { getSystemScan, saveSystemScan, getCompatibilityReport } from '../services/systemService'
+import { getGameImageSrc, handleGameImageError } from '../utils/imageHelpers'
 import type { CompatibilityReport, FavoriteItem, SystemScan } from '../types/game'
 import CompatibilityReportComponent from '../components/CompatibilityReport'
 import { useNavigate } from 'react-router-dom'
@@ -87,21 +88,28 @@ await saveSystemScan(token, {
 
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {items.map((favorite) => (
-                <div key={favorite.id} className="group rounded-xl border border-gaming-accent/20 bg-gaming-card/50 backdrop-blur-sm overflow-hidden hover:border-gaming-accent/50 transition-all duration-300 hover:shadow-glow">
-                  <div className="relative w-full h-56 overflow-hidden bg-gaming-surface">
-                    <img
-                      src={favorite.image_url ?? 'https://via.placeholder.com/640x360?text=Game'}
-                      alt={favorite.name}
-                      className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-500"
-                    />
+                <div key={favorite.id} className="group rounded-xl border border-gaming-accent/20 bg-gaming-card/50 backdrop-blur-sm overflow-hidden hover:border-gaming-accent/50 transition-all duration-300 hover:shadow-glow flex flex-col">
+                  <div className="p-3">
+                    <div className="relative rounded-lg overflow-hidden bg-gaming-surface">
+                      <div className="w-full h-56">
+                        <img
+                          src={getGameImageSrc(favorite.image_url)}
+                          alt={favorite.name}
+                          className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          onError={handleGameImageError}
+                        />
+                      </div>
+                    </div>
                   </div>
 
-                  <div className="p-4 space-y-4">
-                    <h3 className="font-bold text-white group-hover:text-gaming-accent transition-colors">
-                      {favorite.name}
-                    </h3>
+                  <div className="p-4 space-y-4 flex-1 flex flex-col justify-between">
+                    <div>
+                      <h3 className="font-bold text-white group-hover:text-gaming-accent transition-colors">
+                        {favorite.name}
+                      </h3>
+                    </div>
 
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 mt-2">
                       <button
                         type="button"
                         onClick={() => void scanCompatibility(favorite)}

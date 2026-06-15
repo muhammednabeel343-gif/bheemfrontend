@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { X, Check, AlertCircle } from 'lucide-react'
 import type { CompatibilityReport } from '../../types/game'
+import { getGameImageSrc, handleGameImageError } from '../../utils/imageHelpers'
 import Button from '../../components/Button/Button'
 
 interface Props {
@@ -116,15 +117,10 @@ export default function GameCompatibilityModal({
         {/* Header */}
         <div className="relative h-48 overflow-hidden bg-gaming-surface">
           <img
-            src={
-              gameImage?.startsWith('http')
-                ? gameImage
-                : gameImage?.startsWith('/uploads/')
-                  ? `${import.meta.env.VITE_API_BASE_URL || window.location.origin}${gameImage}`
-                  : 'https://via.placeholder.com/800x400?text=Game'
-            }
+            src={getGameImageSrc(gameImage)}
             alt={gameName}
             className="w-full h-full object-cover"
+            onError={handleGameImageError}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-gaming-card via-gaming-card/40 to-transparent" />
           <button

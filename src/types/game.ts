@@ -10,10 +10,10 @@ export interface Requirement {
   id: number
   cpu: string
   gpu: string
-  ram: number
-  storage: number
+  ram_gb: number
+  storage_gb: number
   directx?: string | null
-  os?: string | null
+  operating_system?: string | null
 }
 
 export interface GameDetail {
@@ -57,6 +57,18 @@ export interface FpsEstimate {
   ultra: number
 }
 
+export interface AIInsights {
+  gpu_analysis?: string
+  cpu_analysis?: string
+  ram_analysis?: string
+  storage_analysis?: string
+  os_analysis?: string
+  expected_experience?: string
+  recommended_settings?: string[]
+  tips?: string[]
+  warnings?: string[]
+}
+
 export interface CompatibilityCheck {
   cpu_pass: boolean
   gpu_pass: boolean
@@ -79,4 +91,5 @@ export interface CompatibilityReport {
   compatibility_percentage: number
   status: string
   estimated_fps: FpsEstimate
+  ai_insights?: AIInsights | null
 }

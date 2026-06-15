@@ -1,5 +1,6 @@
 import { Heart, Calendar, User } from 'lucide-react'
 import type { GameDetail } from '../../types/game'
+import { getGameImageSrc, handleGameImageError } from '../../utils/imageHelpers'
 
 interface Props {
   game: GameDetail
@@ -8,11 +9,7 @@ interface Props {
 }
 
 export default function GameHero({ game, isFavorite, onFavoriteToggle }: Props) {
-  const imageUrl = game.image_url?.startsWith('http')
-    ? game.image_url
-    : game.image_url?.startsWith('/uploads/')
-      ? `${import.meta.env.VITE_API_BASE_URL || window.location.origin}${game.image_url}`
-      : 'https://via.placeholder.com/1200x400?text=Game'
+  const imageUrl = getGameImageSrc(game.image_url)
 
   return (
     <div className="relative rounded-xl overflow-hidden border border-gaming-accent/20 bg-gaming-surface">
@@ -22,6 +19,7 @@ export default function GameHero({ game, isFavorite, onFavoriteToggle }: Props) 
           src={imageUrl}
           alt={game.name}
           className="w-full h-full object-cover opacity-30"
+          onError={handleGameImageError}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-gaming-surface via-gaming-surface/50 to-transparent"></div>
       </div>
@@ -35,6 +33,7 @@ export default function GameHero({ game, isFavorite, onFavoriteToggle }: Props) 
               src={imageUrl}
               alt={game.name}
               className="w-full rounded-lg shadow-xl border border-gaming-accent/30 aspect-[2/3] object-cover"
+              onError={handleGameImageError}
             />
           </div>
 

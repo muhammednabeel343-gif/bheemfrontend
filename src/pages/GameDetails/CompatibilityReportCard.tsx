@@ -1,8 +1,8 @@
-import { CheckCircle, AlertCircle, AlertTriangle, XCircle } from 'lucide-react'
+import { CheckCircle, AlertCircle, AlertTriangle, XCircle, Sparkles } from 'lucide-react'
 import type { CompatibilityReport, SystemScan } from '../../types/game'
 
 interface Props {
-  report: CompatibilityReport
+  report: CompatibilityReport | null | undefined
   userSystem: SystemScan | null
 }
 
@@ -10,6 +10,10 @@ export default function CompatibilityReportCard({
   report,
   userSystem,
 }: Props) {
+  if (!report) {
+    return null
+  }
+
   const statusConfig = {
     excellent: {
       color: 'text-green-400',
@@ -41,8 +45,8 @@ export default function CompatibilityReportCard({
     },
   }
 
-  const statusKey = (report.status || 'playable') as keyof typeof statusConfig
-  const config = statusConfig[statusKey]
+  const statusKey = (report?.status || 'playable') as keyof typeof statusConfig
+  const config = statusConfig[statusKey] || statusConfig['playable']
   const Icon = config.icon
 
   return (
@@ -174,6 +178,114 @@ export default function CompatibilityReportCard({
           )}
         </div>
       </div>
+
+      {/* AI Insights Section */}
+      {report.ai_insights && (
+        <div className="mt-8 pt-8 border-t border-gaming-accent/20">
+          <div className="flex items-center gap-2 mb-6">
+            <Sparkles className="text-violet-400" size={20} />
+            <h3 className="text-lg font-bold text-white">AI Compatibility Insights</h3>
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 mb-6">
+            {/* GPU Analysis */}
+            {report.ai_insights.gpu_analysis && (
+              <div className="bg-white/5 rounded-lg border border-gaming-accent/10 p-4">
+                <p className="text-xs text-gaming-secondary font-semibold mb-2">GPU Analysis</p>
+                <p className="text-sm text-white">{report.ai_insights.gpu_analysis}</p>
+              </div>
+            )}
+
+            {/* CPU Analysis */}
+            {report.ai_insights.cpu_analysis && (
+              <div className="bg-white/5 rounded-lg border border-gaming-accent/10 p-4">
+                <p className="text-xs text-gaming-secondary font-semibold mb-2">CPU Analysis</p>
+                <p className="text-sm text-white">{report.ai_insights.cpu_analysis}</p>
+              </div>
+            )}
+
+            {/* RAM Analysis */}
+            {report.ai_insights.ram_analysis && (
+              <div className="bg-white/5 rounded-lg border border-gaming-accent/10 p-4">
+                <p className="text-xs text-gaming-secondary font-semibold mb-2">RAM Analysis</p>
+                <p className="text-sm text-white">{report.ai_insights.ram_analysis}</p>
+              </div>
+            )}
+
+            {/* Storage Analysis */}
+            {report.ai_insights.storage_analysis && (
+              <div className="bg-white/5 rounded-lg border border-gaming-accent/10 p-4">
+                <p className="text-xs text-gaming-secondary font-semibold mb-2">Storage Analysis</p>
+                <p className="text-sm text-white">{report.ai_insights.storage_analysis}</p>
+              </div>
+            )}
+
+            {/* OS Analysis */}
+            {report.ai_insights.os_analysis && (
+              <div className="bg-white/5 rounded-lg border border-gaming-accent/10 p-4">
+                <p className="text-xs text-gaming-secondary font-semibold mb-2">OS Analysis</p>
+                <p className="text-sm text-white">{report.ai_insights.os_analysis}</p>
+              </div>
+            )}
+
+            {/* Expected Experience */}
+            {report.ai_insights.expected_experience && (
+              <div className="bg-emerald-500/10 rounded-lg border border-emerald-500/30 p-4">
+                <p className="text-xs text-emerald-400 font-semibold mb-2">Expected Experience</p>
+                <p className="text-sm text-white">{report.ai_insights.expected_experience}</p>
+              </div>
+            )}
+          </div>
+
+          {/* Recommended Settings */}
+          {report.ai_insights.recommended_settings && Array.isArray(report.ai_insights.recommended_settings) && report.ai_insights.recommended_settings.length > 0 && (
+            <div className="mb-6">
+              <h4 className="text-sm font-semibold text-white mb-3">Recommended Settings</h4>
+              <div className="bg-white/5 rounded-lg border border-gaming-accent/10 p-4">
+                <ul className="space-y-2">
+                  {report.ai_insights.recommended_settings.map((setting, idx) => (
+                    <li key={idx} className="text-sm text-gaming-secondary">
+                      • {setting}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          )}
+
+          {/* Tips & Tricks */}
+          {report.ai_insights.tips && Array.isArray(report.ai_insights.tips) && report.ai_insights.tips.length > 0 && (
+            <div className="mb-6">
+              <h4 className="text-sm font-semibold text-white mb-3">💡 Tips & Tricks</h4>
+              <div className="bg-amber-500/10 rounded-lg border border-amber-500/30 p-4">
+                <ul className="space-y-2">
+                  {report.ai_insights.tips.map((tip, idx) => (
+                    <li key={idx} className="text-sm text-amber-100">
+                      • {tip}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          )}
+
+          {/* Warnings */}
+          {report.ai_insights.warnings && Array.isArray(report.ai_insights.warnings) && report.ai_insights.warnings.length > 0 && (
+            <div>
+              <h4 className="text-sm font-semibold text-white mb-3">⚠️ Warnings</h4>
+              <div className="bg-rose-500/10 rounded-lg border border-rose-500/30 p-4">
+                <ul className="space-y-2">
+                  {report.ai_insights.warnings.map((warning, idx) => (
+                    <li key={idx} className="text-sm text-rose-100">
+                      • {warning}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   )
 }

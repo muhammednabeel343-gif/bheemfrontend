@@ -4,6 +4,7 @@ import { getGames, getGameDetails } from '../../services/gameService'
 import { getCpuOptions, getGpuOptions, getRamOptions, getStorageOptions, getOsOptions, simulateCompatibility } from '../../services/systemService'
 import type { GameSummary, CompatibilityReport } from '../../types/game'
 import { Zap, AlertCircle, Check, Cpu, Gpu, Database, Monitor, HardDrive, ChevronDown } from 'lucide-react'
+import { getGameImageSrc, handleGameImageError } from '../../utils/imageHelpers'
 import Button from '../../components/Button/Button'
 
 export default function Simulator() {
@@ -341,15 +342,10 @@ export default function Simulator() {
               <div className="rounded-xl border border-gaming-accent/20 bg-gaming-card/50 backdrop-blur-sm p-4">
                 <div className="flex gap-3">
                   <img
-                    src={
-                      selectedGameData.image_url?.startsWith('http')
-                        ? selectedGameData.image_url
-                        : selectedGameData.image_url?.startsWith('/uploads/')
-                          ? `${import.meta.env.VITE_API_BASE_URL || window.location.origin}${selectedGameData.image_url}`
-                          : 'https://via.placeholder.com/80x120?text=Game'
-                    }
+                    src={getGameImageSrc(selectedGameData.image_url)}
                     alt={selectedGameData.name}
                     className="w-16 h-24 object-cover rounded-lg"
+                    onError={handleGameImageError}
                   />
                   <div className="flex-1 min-w-0">
                     <h3 className="font-bold text-white text-sm line-clamp-2">{selectedGameData.name}</h3>

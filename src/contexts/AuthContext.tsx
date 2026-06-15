@@ -15,19 +15,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     let cancelled = false;
     const initialize = async () => {
+      const storedRole = localStorage.getItem(roleStorageKey);
+      if (storedRole === "admin") {
+        localStorage.removeItem(tokenStorageKey);
+        if (!cancelled) {
+          setToken(null);
+          setRole("admin");
+          setLoading(false);
+        }
+        return;
+      }
+
       if (token) {
-        const storedRole = localStorage.getItem(roleStorageKey);
-        if (storedRole === "admin") {
-          if (!cancelled) setLoading(false);
-        } else {
-          try {
-            const profile = await fetchCurrentUser(token);
-            if (!cancelled) setUser(profile);
-          } catch {
-            localStorage.removeItem(tokenStorageKey);
-            localStorage.removeItem(roleStorageKey);
-            if (!cancelled) { setToken(null); setRole(null); }
-          }
+        try {
+          const profile = await fetchCurrentUser(token);
+          if (!cancelled) setUser(profile);
+        } catch {
+          localStorage.removeItem(tokenStorageKey);
+          localStorage.removeItem(roleStorageKey);
+          if (!cancelled) { setToken(null); setRole(null); }
         }
       }
       if (!cancelled) setLoading(false);
@@ -38,31 +44,35 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signIn = async (payload: LoginRequest) => {
     const response = await loginUser(payload);
+
+    if (response.role === "admin") {
+      localStorage.removeItem(tokenStorageKey);
+      localStorage.setItem(roleStorageKey, "admin");
+      localStorage.setItem("bheem_admin_token", response.access_token);
+      setToken(null);
+      setRole("admin");
+      return "admin";
+    }
+
+    localStorage.removeItem("bheem_admin_token");
     localStorage.setItem(tokenStorageKey, response.access_token);
     localStorage.setItem(roleStorageKey, response.role || "user");
     setToken(response.access_token);
     setRole(response.role || "user");
-    if (response.role === "admin") {
-  localStorage.setItem("bheem_admin_token", response.access_token);
-  window.location.assign("/admin/dashboard");
-  return;
-}
-    else {
-      const profile = await fetchCurrentUser(response.access_token);
-      setUser(profile);
-     window.location.assign("/library");
-    }
+    const profile = await fetchCurrentUser(response.access_token);
+    setUser(profile);
+    return "user";
   };
 
   const signUp = async (payload: RegisterRequest) => {
     const response = await registerUser(payload);
+    localStorage.removeItem("bheem_admin_token");
     localStorage.setItem(tokenStorageKey, response.access_token);
     localStorage.setItem(roleStorageKey, "user");
     setToken(response.access_token);
     setRole("user");
     const profile = await fetchCurrentUser(response.access_token);
     setUser(profile);
-   window.location.assign("/library");
   };
 
   const signOut = () => {
@@ -71,6 +81,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setRole(null);
     localStorage.removeItem(tokenStorageKey);
     localStorage.removeItem(roleStorageKey);
+    localStorage.removeItem("bheem_admin_token");
     window.location.assign("/login");
   };
 

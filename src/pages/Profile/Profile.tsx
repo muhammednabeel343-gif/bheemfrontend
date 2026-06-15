@@ -4,8 +4,10 @@ import { useAuth } from '../../contexts/AuthContext'
 import UserHeader from './UserHeader'
 import CurrentSystem from './CurrentSystem'
 import FavoriteGames from './FavoriteGames'
+import PurchasedGames from './PurchasedGames'
 import SystemInsights from './SystemInsights'
 import EditProfileModal from './EditProfileModal'
+import UserRecommendations from '../../components/Recommendations/UserRecommendations'
 
 interface UserProfile {
   id: number
@@ -98,11 +100,17 @@ export default function Profile() {
         {/* Current System */}
         <CurrentSystem isOwnProfile={isOwnProfile} />
 
+        {/* Purchased Games */}
+        {isOwnProfile && <PurchasedGames />}
+
         {/* Favorite Games */}
         <FavoriteGames />
 
         {/* System Insights */}
         <SystemInsights />
+
+        {/* Recommendations */}
+        <UserRecommendations />
 
         {/* Edit Profile Modal */}
         {showEditModal && (

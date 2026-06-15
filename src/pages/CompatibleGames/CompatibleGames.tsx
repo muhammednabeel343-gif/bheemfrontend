@@ -3,6 +3,7 @@ import { useAuth } from '../../contexts/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import { getGames } from '../../services/gameService'
 import { getSystemScan, simulateCompatibility } from '../../services/systemService'
+import { getGameImageSrc, handleGameImageError } from '../../utils/imageHelpers'
 import type { GameSummary, SystemScan, CompatibilityReport } from '../../types/game'
 import SearchBar from '../../components/SearchBar'
 import { AlertCircle, Zap, Check, X, ChevronDown, Filter, Cpu, Gpu, Database, HardDrive, Monitor } from 'lucide-react'
@@ -324,9 +325,10 @@ export default function CompatibleGames() {
                       {/* Image Container */}
                       <div className="absolute inset-0 overflow-hidden bg-gaming-surface">
                         <img
-                          src={game.image_url || '/placeholder-game.jpg'}
+                          src={getGameImageSrc(game.image_url)}
                           alt={game.name}
                           className="absolute inset-0 h-full w-full object-cover object-center group-hover:scale-110 transition-transform duration-500"
+                          onError={handleGameImageError}
                         />
 
                         {/* Overlay on Hover */}

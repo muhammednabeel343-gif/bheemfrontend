@@ -21,6 +21,7 @@ interface Game {
   publisher?: string;
   release_date?: string;
   image_url?: string;
+  price?: number;
   cpu: string;
   gpu: string;
   ram_gb?: number;
@@ -38,9 +39,11 @@ function AdminGamesPage() {
 
   const [form, setForm] = useState({
     name: "",
+    description: "",
     genre: "",
     release_date: "",
     image_url: "",
+    price: "",
     cpu: "",
     gpu: "",
     ram_gb: "",
@@ -65,9 +68,11 @@ function AdminGamesPage() {
     setEditing(null);
     setForm({
       name: "",
+      description: "",
       genre: "",
       release_date: "",
       image_url: "",
+      price: "",
       cpu: "",
       gpu: "",
       ram_gb: "",
@@ -93,9 +98,11 @@ function AdminGamesPage() {
 
     const payload = {
       name: form.name,
+      description: form.description || undefined,
       genre: form.genre,
       release_date: form.release_date || undefined,
       image_url: image_url || undefined,
+      price: form.price ? Number(form.price) : undefined,
       cpu: form.cpu,
       gpu: form.gpu,
       ram_gb: form.ram_gb ? Number(form.ram_gb) : undefined,
@@ -118,9 +125,11 @@ function AdminGamesPage() {
       setEditing(null);
       setForm({
         name: "",
+        description: "",
         genre: "",
         release_date: "",
         image_url: "",
+        price: "",
         cpu: "",
         gpu: "",
         ram_gb: "",
@@ -153,9 +162,11 @@ function AdminGamesPage() {
     setEditing(game);
     setForm({
       name: game.name,
+      description: game.description || "",
       genre: game.genre || "",
       release_date: game.release_date || "",
       image_url: game.image_url || "",
+      price: game.price?.toString() || "",
       cpu: game.cpu || "",
       gpu: game.gpu || "",
       ram_gb: game.ram_gb?.toString() || "",
@@ -288,6 +299,34 @@ function AdminGamesPage() {
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
                   placeholder="e.g., Cyberpunk 2077"
+                  className="w-full rounded-lg border border-purple-500/20 bg-purple-500/5 px-4 py-2 text-white placeholder-slate-500 focus:border-purple-500/50 focus:outline-none focus:ring-1 focus:ring-purple-500/30 transition-all duration-200"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-white mb-2">
+                  Description
+                </label>
+                <textarea
+                  value={form.description}
+                  onChange={(e) => setForm({ ...form, description: e.target.value })}
+                  placeholder="Game description and overview..."
+                  rows={3}
+                  className="w-full rounded-lg border border-purple-500/20 bg-purple-500/5 px-4 py-2 text-white placeholder-slate-500 focus:border-purple-500/50 focus:outline-none focus:ring-1 focus:ring-purple-500/30 transition-all duration-200 resize-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-white mb-2">
+                  Price (₹)
+                </label>
+                <input
+                  type="number"
+                  value={form.price}
+                  onChange={(e) => setForm({ ...form, price: e.target.value })}
+                  placeholder="e.g., 499"
+                  step="0.01"
+                  min="0"
                   className="w-full rounded-lg border border-purple-500/20 bg-purple-500/5 px-4 py-2 text-white placeholder-slate-500 focus:border-purple-500/50 focus:outline-none focus:ring-1 focus:ring-purple-500/30 transition-all duration-200"
                 />
               </div>

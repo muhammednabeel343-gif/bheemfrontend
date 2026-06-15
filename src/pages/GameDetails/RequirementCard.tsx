@@ -26,13 +26,13 @@ export default function RequirementCard({
     {
       icon: Monitor,
       label: 'RAM',
-      value: `${requirement.ram} GB`,
+      value: `${requirement.ram_gb} GB`,
       color: 'text-blue-400',
     },
     {
       icon: HardDrive,
       label: 'Storage',
-      value: `${requirement.storage} GB`,
+      value: `${requirement.storage_gb} GB`,
       color: 'text-purple-400',
     },
   ]
@@ -45,9 +45,9 @@ export default function RequirementCard({
           {type === 'minimum' ? 'Minimum Requirements' : 'Recommended'}
         </div>
 
-        {requirement.os && (
+        {requirement.operating_system && (
           <p className="text-sm text-gaming-secondary">
-            {requirement.os}
+            {requirement.operating_system}
           </p>
         )}
       </div>

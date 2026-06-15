@@ -39,7 +39,6 @@ export function AdminAuthProvider({ children }: { children: ReactNode }) {
     localStorage.setItem("bheem_admin_profile", JSON.stringify(data.admin));
     setToken(data.access_token);
     setAdmin(data.admin as AdminProfile);
-    window.location.assign("/admin/dashboard");
   };
 
   const signOut = () => {
@@ -47,7 +46,7 @@ export function AdminAuthProvider({ children }: { children: ReactNode }) {
     setAdmin(null);
     localStorage.removeItem(adminTokenKey);
     localStorage.removeItem("bheem_admin_profile");
-    window.location.assign("/admin/login");
+    window.location.assign("/login");
   };
 
   const value = useMemo(

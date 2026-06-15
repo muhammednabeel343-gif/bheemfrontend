@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Heart, Zap } from 'lucide-react'
 import type { GameSummary } from '../../types/game'
 import useFavorites from '../../hooks/useFavorites'
+import { getGameImageSrc, handleGameImageError } from '../../utils/imageHelpers'
 import GameCompatibilityModal from './GameCompatibilityModal'
 
 interface Props {
@@ -49,15 +50,10 @@ export default function CompatibleGameCard({
         {/* Image Container */}
         <div className="absolute inset-0 overflow-hidden bg-gaming-surface">
           <img
-            src={
-              game.image_url?.startsWith('http')
-                ? game.image_url
-                : game.image_url?.startsWith('/uploads/')
-                  ? `${import.meta.env.VITE_API_BASE_URL || window.location.origin}${game.image_url}`
-                  : 'https://via.placeholder.com/640x360?text=Game'
-            }
+            src={getGameImageSrc(game.image_url)}
             alt={game.name}
             className="absolute inset-0 h-full w-full object-cover object-center group-hover:scale-110 transition-transform duration-500"
+            onError={handleGameImageError}
           />
 
           {/* Overlay on Hover */}
