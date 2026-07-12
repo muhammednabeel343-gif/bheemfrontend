@@ -6,7 +6,6 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import CompatibilityPage from "./pages/CompatibilityPage";
-import SystemSimulatorPage from "./pages/SystemSimulatorPage";
 import MySystem from "./pages/MySystem/MySystem";
 import CompatibleGames from "./pages/CompatibleGames/CompatibleGames";
 import Simulator from "./pages/Simulator/Simulator";

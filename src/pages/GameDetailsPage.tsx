@@ -99,9 +99,9 @@ export default function GameDetailsPage() {
           {/* Left: Game Image with Name & Genre overlay and Add to Cart */}
           <div className="lg:w-1/3 flex flex-col flex-shrink-0">
             {/* Image wrapper with padding to match library card fit */}
-            <div className="p-3 mb-4">
-              <div className="relative rounded-lg overflow-hidden bg-gaming-surface">
-                <div className="w-full h-80 sm:h-96">
+           <div className="mb-4">
+              <div className="rounded-xl overflow-hidden bg-gaming-card border border-gaming-accent/20 shadow-xl">
+              <div className="aspect-[3/4] w-full">
                   {game.image_url && (
                     <img
                       src={game.image_url}
@@ -115,29 +115,35 @@ export default function GameDetailsPage() {
             </div>
 
             {/* Game Name & Genre with Add to Cart button gap */}
-            <div className="flex w-full gap-3">
-              <div className="flex-1 bg-gaming-card/50 border border-gaming-accent/20 rounded-lg p-4">
-                <h1 className="text-2xl font-bold text-white mb-1 line-clamp-2">{game.name}</h1>
-                <p className="text-sm text-gaming-secondary">{game.genre}</p>
-              </div>
-              <div className="w-40 bg-gaming-card/50 border border-gaming-accent/20 rounded-lg p-3 flex items-center justify-center">
-                {isPurchased ? (
-                  <div className="rounded-md bg-status-recommended/20 border border-status-recommended text-status-recommended flex items-center justify-center gap-2 px-3 py-2 text-xs">
-                    <Lock size={14} />
-                    Owned
-                  </div>
-                ) : (
-                  <button
-                    onClick={handleAddToCart}
-                    disabled={addingToCart}
-                    className="w-full rounded-lg bg-gaming-accent text-white font-bold hover:bg-gaming-accent/90 transition-all disabled:opacity-50 flex items-center justify-center gap-2 px-3 py-2 text-sm"
-                  >
-                    <Zap size={16} />
-                    {addingToCart ? 'Adding...' : 'Add to Cart'}
-                  </button>
-                )}
-              </div>
-            </div>
+           <div className="flex items-center justify-between mt-4 gap-4">
+
+  <div className="flex-1">
+    <h1 className="text-3xl font-bold text-white">
+      {game.name}
+    </h1>
+
+    <p className="text-gaming-secondary mt-1">
+      {game.genre}
+    </p>
+  </div>
+
+  {isPurchased ? (
+    <div className="rounded-lg bg-status-recommended/20 border border-status-recommended text-status-recommended px-5 py-3 flex items-center gap-2">
+      <Lock size={16}/>
+      Owned
+    </div>
+  ) : (
+    <button
+      onClick={handleAddToCart}
+      disabled={addingToCart}
+      className="rounded-lg bg-gaming-accent hover:bg-gaming-accent/90 transition-all px-6 py-3 text-white font-semibold flex items-center gap-2"
+    >
+      <Zap size={18}/>
+      {addingToCart ? "Adding..." : "Add to Cart"}
+    </button>
+  )}
+
+</div>
           </div>
 
           {/* Right: Combined Description + Requirements card */}
